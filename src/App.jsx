@@ -7,6 +7,7 @@ const App = () => {
   const [id, setId] = useState(null);
 
   useEffect(() => {
+    console.log("Fetching initial data...");
     const fetchInitialData = async () => {
       const data = await fetchPeople();
       setPeople(data);
@@ -15,6 +16,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    console.log("Fetching selected person data...");
     const fetchSelectedPerson = async () => {
       setPerson(null); 
 
@@ -24,7 +26,7 @@ const App = () => {
           setPerson(data);
         } catch (error) {
           console.error('Error fetching selected person data:', error);
-          setPerson(null); // Reset person state in case of error
+          setPerson(null); 
         }
       }
     };
@@ -33,8 +35,13 @@ const App = () => {
   }, [id]);
 
   const handleButtonClick = (personId) => {
+    console.log("Button clicked. Person ID:", personId);
     setId(personId);
   };
+
+  useEffect(() => {
+    console.log("Rendering");
+  });
 
   return (
     <div className="App">
