@@ -3,8 +3,8 @@ import { fetchPeople, fetchPerson } from "./fetchers";
 
 const App = () => {
   const [people, setPeople] = useState([]);
-  const [id, setId] = useState(null);
   const [person, setPerson] = useState(null);
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     fetchPeople().then((data) => {
@@ -12,28 +12,23 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (id) {
-      fetchPerson(id).then((data) => {
-        setPerson(data);
-      });
-    } else {
-      setPerson(null);
-    }
-  }, [id]);
-
   const handleButtonClick = (personId) => {
     setId(personId);
+    fetchPerson(personId).then((data) => {
+      setPerson(data);
+    });
   };
 
   return (
     <div className="App">
       <h1>React Hooks Exercise Starter</h1>
-      {people.map((person) => (
-        <button key={person.id} onClick={() => handleButtonClick(person.id)}>
-          {person.name}
-        </button>
-      ))}
+      <div>
+        {people.map((p) => (
+          <button key={p.id} onClick={() => handleButtonClick(p.id)}>
+            {p.name}
+          </button>
+        ))}
+      </div>
       {person && (
         <div>
           <h2>{person.name}</h2>
