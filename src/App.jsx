@@ -7,16 +7,33 @@ const App = () => {
   const [id, setId] = useState(null);
 
   useEffect(() => {
-    fetchPeople().then((data) => {
+    const fetchInitialData = async () => {
+      const data = await fetchPeople();
       setPeople(data);
-    });
+    };
+    fetchInitialData();
   }, []);
+
+  useEffect(() => {
+    const fetchSelectedPerson = async () => {
+      setPerson(null); 
+
+      if (id !== null) {
+        try {
+          const data = await fetchPerson(id);
+          setPerson(data);
+        } catch (error) {
+          console.error('Error fetching selected person data:', error);
+          setPerson(null); // Reset person state in case of error
+        }
+      }
+    };
+
+    fetchSelectedPerson();
+  }, [id]);
 
   const handleButtonClick = (personId) => {
     setId(personId);
-    fetchPerson(personId).then((data) => {
-      setPerson(data);
-    });
   };
 
   return (
