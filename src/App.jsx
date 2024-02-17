@@ -9,6 +9,7 @@ const App = () => {
   useEffect(() => {
     console.log("Fetching initial data...");
     const fetchInitialData = async () => {
+      console.log("Fetching People");
       const data = await fetchPeople();
       setPeople(data);
     };
@@ -18,20 +19,26 @@ const App = () => {
   useEffect(() => {
     console.log("Fetching selected person data...");
     const fetchSelectedPerson = async () => {
-      setPerson(null); 
+      setPerson(null); // Immediately set the person state to null
 
       if (id !== null) {
         try {
+          console.log("Fetching Person");
           const data = await fetchPerson(id);
           setPerson(data);
         } catch (error) {
           console.error('Error fetching selected person data:', error);
-          setPerson(null); 
+          setPerson(null); // Reset person state in case of error
         }
       }
     };
 
     fetchSelectedPerson();
+
+    // Cleanup function
+    return () => {
+      console.log("Cleaning up the person effect");
+    };
   }, [id]);
 
   const handleButtonClick = (personId) => {
